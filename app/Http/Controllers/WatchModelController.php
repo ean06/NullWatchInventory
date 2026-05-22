@@ -3,67 +3,80 @@
 namespace App\Http\Controllers;
 
 use App\Models\WatchModel;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class WatchModelController extends Controller
 {
-    public function index(){
-        return WatchModel::with('brand')->get();
+    public function index()
+    {
+        $watchModels = WatchModel::with('brand')->get();
+        return view('watch_models.Index', compact('watchModels'));
     }
 
-    public function create(Request $request){
-        if ($request->hasFile('image')) {
+    public function create()
+    {
+        $brands = Brand::all();
+        return view('watch_models.Create', compact('brands'));
+    }
 
-            $imageName = time() . '.' .
-                $request->image->extension();
-
-            $request->image->move(
-                public_path('images'),
-                $imageName
-            );
-
-        } else {
-            $imageName = null;
-        }
-
-        $watchModel = WatchModel::create([
-            'brandId' => $request->brandId,
-            'model_name' => $request->model_name,
-            'year' => $request->year,
-            'movement_type' => $request->movement_type,
-            'desc' => $request->desc,
-            'image' => $imageName,
-            'reference_number' => $request->reference_number
+    public function store(Request $request)
+    {
+        $request->validate([
+            'brandId'          => 'required|exists:brands,brandId',
+            'model_name'       => 'required|string|max:50',
+            'year'             => 'nullable|digits:4|integer|min:1800|max:' . date('Y'),
+            'movement_type'    => 'nullable|in:manual,automatic,quartz',
+            'desc'             => 'nullable|string|max:150',
+            'image'            => 'nullable|string|max:255',
+            'reference_number' => 'nullable|string|max:50',
         ]);
 
-        return response()->json($watchModel);
+        WatchModel::create($request->only([
+            'brandId', 'model_name', 'year', 'movement_type', 'desc', 'image', 'reference_number',
+        ]));
+
+        return redirect('/watch-models')->with('success', 'Watch model berhasil ditambahkan.');
     }
 
-    public function find(string $id){
-        return WatchModel::with('brand')
-            ->findOrFail($id);
+    public function show(string $id)
+    {
+        $watchModel = WatchModel::with('brand')->findOrFail($id);
+        return view('watch_models.Show', compact('watchModel'));
     }
 
-    public function show(string $id){
-        return WatchModel::with('brand')
-            ->findOrFail($id);
-    }
-
-    public function update(Request $request, string $id){
+    public function edit(string $id)
+    {
         $watchModel = WatchModel::findOrFail($id);
-
-        $watchModel->update($request->all());
-
-        return response()->json($watchModel);
+        $brands = Brand::all();
+        return view('watch_models.Edit', compact('watchModel', 'brands'));
     }
 
-    public function delete(string $id){
-        $watchModel = WatchModel::findOrFail($id);
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'brandId'          => 'required|exists:brands,brandId',
+            'model_name'       => 'required|string|max:50',
+            'year'             => 'nullable|digits:4|integer|min:1800|max:' . date('Y'),
+            'movement_type'    => 'nullable|in:manual,automatic,quartz',
+            'desc'             => 'nullable|string|max:150',
+            'image'            => 'nullable|string|max:255',
+            'reference_number' => 'nullable|string|max:50',
+        ]);
 
+        $watchModel = WatchModel::findOrFail($id);
+        $watchModel->update($request->only([
+            'brandId', 'model_name', 'year', 'movement_type', 'desc', 'image', 'reference_number',
+        ]));
+
+        return redirect('/watch-models')->with('success', 'Watch model berhasil diperbarui.');
+    }
+
+    public function delete(string $id)
+    {
+        $watchModel = WatchModel::findOrFail($id);
         $watchModel->delete();
 
-        return response()->json([
-            'message' => 'Watch Model deleted'
-        ]);
+        return redirect('/watch-models')->with('success', 'Watch model berhasil dihapus.');
     }
 }

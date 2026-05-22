@@ -22,6 +22,18 @@
                         {{ __('Brands') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('watch-model')" :active="request()->routeIs('watch-model')">
+                        {{ __('Watch Model') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('watch-unit')" :active="request()->routeIs('watch-unit')">
+                        {{ __('Watch Unit') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

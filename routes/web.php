@@ -23,29 +23,31 @@ Route::middleware('auth')->group(function () {
 });
 
 // BRAND ROUTE
-Route::get('/brands', [BrandController::class, 'index'])->name('brands');
-Route::get('/brands/create', [BrandController::class, 'create']);
-Route::post('/brands/create', [BrandController::class, 'store']);
-Route::get('/brands/show/{id}', [BrandController::class, 'show']);
-Route::get('/brands/edit/{id}', [BrandController::class, 'edit']);
-Route::put('/brands/update/{id}', [BrandController::class, 'update']);
-Route::delete('/brands/delete/{id}', [BrandController::class, 'delete']);
+Route::get('/brands',                   [BrandController::class, 'index'])->name('brands');
+Route::get('/brands/create',            [BrandController::class, 'create']);
+Route::post('/brands/create',           [BrandController::class, 'store']);
+Route::get('/brands/show/{id}',         [BrandController::class, 'show']);
+Route::get('/brands/edit/{id}',         [BrandController::class, 'edit']);
+Route::put('/brands/update/{id}',       [BrandController::class, 'update']);
+Route::delete('/brands/delete/{id}',    [BrandController::class, 'delete']);
 
 // WATCH MODEL ROUTES
-Route::get('/watch-models', [WatchModelController::class, 'index']);
-Route::post('/watch-models/create', [WatchModelController::class, 'create']);
-Route::get('/watch-models/find/{id}', [WatchModelController::class, 'find']);
-Route::get('/watch-models/show/{id}', [WatchModelController::class, 'show']);
-Route::put('/watch-models/update/{id}', [WatchModelController::class, 'update']);
-Route::delete('/watch-models/delete/{id}', [WatchModelController::class, 'delete']);
+Route::get('/watch-models',                    [WatchModelController::class, 'index'])->name('watch-model');
+Route::get('/watch-models/create',             [WatchModelController::class, 'create']);
+Route::post('/watch-models/create',            [WatchModelController::class, 'store']);
+Route::get('/watch-models/show/{id}',          [WatchModelController::class, 'show']);
+Route::get('/watch-models/edit/{id}',          [WatchModelController::class, 'edit']);
+Route::put('/watch-models/update/{id}',        [WatchModelController::class, 'update']);
+Route::delete('/watch-models/delete/{id}',     [WatchModelController::class, 'delete']);
 
 // WATCH UNIT ROUTES
-Route::get('/watch-units', [WatchUnitController::class, 'index']);
-Route::post('/watch-units/create', [WatchUnitController::class, 'create']);
-Route::get('/watch-units/find/{id}', [WatchUnitController::class, 'find']);
-Route::get('/watch-units/show/{id}', [WatchUnitController::class, 'show']);
-Route::put('/watch-units/update/{id}', [WatchUnitController::class, 'update']);
-Route::delete('/watch-units/delete/{id}', [WatchUnitController::class, 'delete']);
+Route::get('/watch-units',                 [WatchUnitController::class, 'index'])->name('watch-unit');
+Route::get('/watch-units/create',          [WatchUnitController::class, 'create']);
+Route::post('/watch-units/create',         [WatchUnitController::class, 'store']);
+Route::get('/watch-units/show/{id}',       [WatchUnitController::class, 'show']);
+Route::get('/watch-units/edit/{id}',       [WatchUnitController::class, 'edit']);
+Route::put('/watch-units/update/{id}',     [WatchUnitController::class, 'update']);
+Route::delete('/watch-units/delete/{id}',  [WatchUnitController::class, 'delete']);
 
 // TRANSACTION ROUTES
 Route::get('/transactions', [TransactionController::class, 'index']);
